@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Adventure | Изучай английский играя!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="gerry_love.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Comic Neue', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 12, 41, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background-image: url('gerrynormal.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav a:hover {
+            color: #a855f7;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a855f7;
+            transition: 0.3s;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #a855f7, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 60px;
+            font-size: 18px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .screenshot-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .screenshot-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .screenshot-img {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .screenshot-card p {
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* ТАМАГОЧИ С РЕАЛЬНЫМИ КАРТИНКАМИ */
+        .tamagochi-preview {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 40px;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tamagochi-character {
+            text-align: center;
+        }
+
+        .tamagochi-image {
+            width: 200px;
+            height: 200px;
+            background-image: url('gerrynormal.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            margin: 0 auto 15px;
+            transition: 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tamagochi-stats {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .stat-bar {
+            margin-bottom: 20px;
+        }
+
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .stat-progress {
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+
+        .stat-fill.hunger { width: 85%; background: #4ade80; }
+        .stat-fill.happiness { width: 70%; background: #facc15; }
+        .stat-fill.energy { width: 60%; background: #60a5fa; }
+        .stat-fill.cleanliness { width: 90%; background: #38bdf8; }
+
+        /* Эмоции Гэрри */
+        .emotions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .emotion-item {
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .emotion-item:hover {
+            transform: scale(1.1);
+            background: rgba(168,85,247,0.3);
+        }
+
+        .emotion-img {
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 5px;
+        }
+
+        .emotion-item span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .author-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .author-avatar {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .author-card h4 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .author-role {
+            color: #a855f7;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .author-desc {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .download-card {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            border-radius: 50px;
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download-card h3 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .download-card p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn-download {
+            background: white;
+            color: #7c3aed;
+            padding: 15px 50px;
+            font-size: 18px;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.05);
+            background: #f0f0f0;
+        }
+
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 40px;
+            border-radius: 40px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .modal-content h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .modal-gerry {
+            width: 120px;
+            height: 120px;
+            background-image: url('gerrynormal.png');
+            background-size: cover;
+            background-position: center;
+            margin: 20px auto;
+            border-radius: 20px;
+        }
+
+        .modal-close {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .section-title { font-size: 32px; }
+            .container { padding: 0 20px; }
+            .tamagochi-image { width: 150px; height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <span>English Adventure</span>
+                </div>
+                <div class="nav">
+                    <a href="#features">Возможности</a>
+                    <a href="#screenshots">Скриншоты</a>
+                    <a href="#tamagochi">Тамагочи</a>
+                    <a href="#authors">Авторы</a>
+                    <a href="#download" id="downloadNavBtn">Скачать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="container">
+            <div class="hero-badge">🎓 1-9 классы | 🐁 Помощник Гэрри | 🎮 Игровая форма</div>
+            <h1>УЧИ АНГЛИЙСКИЙ<br>ИГРАЯ!</h1>
+            <p>Интерактивный тренажёр для школьников с персонажем-тамагочи, системой уровней и магазином угощений </p>
+            <p>(обновления стабильно раз в неделю😊🐁🐰)</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" id="heroDownloadBtn">⬇️ СКАЧАТЬ БЕСПЛАТНО</button>
+                <a href="#features" class="btn btn-secondary">📖 УЗНАТЬ БОЛЬШЕ</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">✨ ВОЗМОЖНОСТИ ✨</h2>
+            <p class="section-subtitle">Всё, что нужно для изучения английского в одном месте</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>9 классов</h3>
+                    <p>45 тем по школьной программе с 1 по 9 класс</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✏️</div>
+                    <h3>66 упражнений</h3>
+                    <p>Грамматика, лексика, перевод — всё в игровой форме</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Система уровней</h3>
+                    <p>Очки, опыт, комбо — становись экспертом!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐁</div>
+                    <h3>Тамагочи Гэрри</h3>
+                    <p>Корми, играй, купай и укладывай спать питомца</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧀</div>
+                    <h3>Магазин еды</h3>
+                    <p>Покупай угощения для Гэрри за заработанные монеты</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨🏫</div>
+                    <h3>Режим учителя</h3>
+                    <p>Добавляй свои слова и упражнения (доступ по регистрации)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="screenshots">
+    <div class="container">
+        <h2 class="section-title">📸 СКРИНШОТЫ ПРОГРАММЫ 📸</h2>
+        <p class="section-subtitle">Как выглядит English Adventure</p>
+        <div class="screenshots-grid">
+            <div class="screenshot-card">
+                <img src="screenshot1.png" alt="Выбор класса" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px;">
+                <p>🎓 Выбор класса 1-9</p>
+            </div>
+            <div class="screenshot-card">
+                <img src="screenshot2.png" alt="Выбор темы" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px;">
+                <p>📚 Выбор тем для изучения</p>
+            </div>
+            <div class="screenshot-card">
+                <img src="screenshot3.png" alt="Режим упражнений" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px;">
+                <p>✏️ Упражнения с таймером</p>
+            </div>
+            <div class="screenshot-card">
+                <img src="screenshot4.png" alt="Тамагочи" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px;">
+                <p>🐁 Тамагочи Гэрри</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- ТАМАГОЧИ С РЕАЛЬНЫМИ КАРТИНКАМИ -->
+    <div class="section" id="tamagochi">
+        <div class="container">
+            <h2 class="section-title">🐁 ТАМАГОЧИ ГЭРРИ 🐁</h2>
+            <p class="section-subtitle">Заботься о своём питомце и получай бонусы!</p>
+            <div class="tamagochi-preview">
+                <div class="tamagochi-character">
+                    <div class="tamagochi-image" id="gerryImage"></div>
+                    <p id="gerryMood">😊 Счастлив</p>
+                </div>
+                <div class="tamagochi-stats">
+                    <div class="stat-bar">
+                        <div class="stat-label"><span>🍽️ Сытость</span><span id="hungerVal">85%</span></div>
+                        <div class="stat-progress"><div class="stat-fill hunger" id="hungerBar"></div></div>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-label"><span>😊 Счастье</span><span id="happinessVal">70%</span></div>
+                        <div class="stat-progress"><div class="stat-fill happiness" id="happinessBar"></div></div>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-label"><span>⚡ Энергия</span><span id="energyVal">60%</span></div>
+                        <div class="stat-progress"><div class="stat-fill energy" id="energyBar"></div></div>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-label"><span>🧼 Чистота</span><span id="cleanlinessVal">90%</span></div>
+                        <div class="stat-progress"><div class="stat-fill cleanliness" id="cleanlinessBar"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Эмоции Гэрри с картинками -->
+            <div class="emotions">
+                <div class="emotion-item" data-emotion="normal" data-hunger="85" data-happiness="90">
+                    <div class="emotion-img" style="background-image: url('gerrynormal.png');"></div>
+                    <span>😐 Обычный</span>
+                </div>
+                <div class="emotion-item" data-emotion="happy" data-hunger="90" data-happiness="95">
+                    <div class="emotion-img" style="background-image: url('gerry_love.png');"></div>
+                    <span>😊 Счастлив</span>
+                </div>
+                <div class="emotion-item" data-emotion="sad" data-hunger="30" data-happiness="40">
+                    <div class="emotion-img" style="background-image: url('gerry_sad.png');"></div>
+                    <span>😢 Грустный</span>
+                </div>
+                <div class="emotion-item" data-emotion="angry" data-hunger="10" data-happiness="30">
+                    <div class="emotion-img" style="background-image: url('gerry_angry.png');"></div>
+                    <span>😡 Злой</span>
+                </div>
+                <div class="emotion-item" data-emotion="think" data-hunger="70" data-happiness="70">
+                    <div class="emotion-img" style="background-image: url('gerry_think.png');"></div>
+                    <span>🤔 Думает</span>
+                </div>
+                <div class="emotion-item" data-emotion="shock" data-hunger="75" data-happiness="85">
+                    <div class="emotion-img" style="background-image: url('gerry_shock.png');"></div>
+                    <span>🫤 Удивлён</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <p style="opacity: 0.8;">🎮 В игре ты сможешь кормить, играть и ухаживать за Гэрри!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="authors">
+        <div class="container">
+            <h2 class="section-title">👨‍💻 АВТОРЫ ПРОЕКТА 👩‍💻</h2>
+            <p class="section-subtitle">Команда создателей English Adventure</p>
+            <div class="authors-grid">
+                <div class="author-card">
+                    <div class="author-avatar">🌟</div>
+                    <h4>Лешан Татьяна Леонидовна</h4>
+                    <div class="author-role">Лидер проекта, программист</div>
+                    <div class="author-desc">Основной код, архитектура, отладка<br>Система монет и магазина</div>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">🐁</div>
+                    <h4>Ефимов Денис Павлович</h4>
+                    <div class="author-role">Технический писатель</div>
+                    <div class="author-desc">Презентации, отчёты, документация<br>Система раундов и анимаций</div>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">🎨</div>
+                    <h4>Деревягина Дарья Александровна</h4>
+                    <div class="author-role">Дизайнер</div>
+                    <div class="author-desc">Дизайн через код, интерфейс, анимации<br>Персонаж Гэрри и эмоции</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-section" id="download">
+        <div class="container">
+            <div class="download-card">
+                <h3>🎮 ГОТОВ НАЧАТЬ?</h3>
+                <p>Скачай English Adventure бесплатно и начни учить английский в игровой форме!</p>
+                <button class="btn btn-download" id="downloadBtn">⬇️ СКАЧАТЬ (WINDOWS) ⬇️</button>
+                <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">Версия 1.0 | ~15 МБ | Windows 10/11</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2026 English Adventure Team. Все права защищены.</p>
+            <p style="margin-top: 10px; opacity: 0.6; font-size: 14px;">Колледж космического машиностроения и технологий им. А.А. Леонова</p>
+        </div>
+    </div>
+
+    <div class="modal" id="downloadModal">
+        <div class="modal-content">
+            <div class="modal-gerry"></div>
+            <h3>English Adventure</h3>
+            <p>Скачай программу и начни учить английский с Гэрри!</p>
+            <p style="background: rgba(168,85,247,0.2); padding: 10px; border-radius: 15px; margin: 15px 0;">
+                📁 EnglishAdventure_Setup.exe
+            </p>
+            <button class="modal-close" id="closeModalBtn">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
+    <script>
+        // Создание звёзд
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = star.style.height = Math.random() * 3 + 1 + 'px';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 3 + 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Смена эмоций Гэрри
+        const gerryImage = document.getElementById('gerryImage');
+        const gerryMood = document.getElementById('gerryMood');
+        
+        const emotions = {
+            normal: { img: 'gerrynormal.png', text: '🐁 Обычный', hunger: 85, happiness: 90, energy: 80, cleanliness: 85 },
+            happy: { img: 'gerry_love.png', text: '😊 Счастлив', hunger: 90, happiness: 95, energy: 85, cleanliness: 90 },
+            sad: { img: 'gerry_sad.png', text: '😢 Грустный', hunger: 30, happiness: 40, energy: 50, cleanliness: 60 },
+            angry: { img: 'gerry_angry.png', text: '😡 Злой', hunger: 10, happiness: 30, energy: 40, cleanliness: 50 },
+            think: { img: 'gerry_think.png', text: '🤔 Думает', hunger: 70, happiness: 70, energy: 75, cleanliness: 80 },
+            shock: { img: 'gerry_shock.png', text: '🫤 Удивлён', hunger: 75, happiness: 85, energy: 70, cleanliness: 75 }
+        };
+
+        function updateGerry(emotion) {
+            const data = emotions[emotion];
+            if (data) {
+                gerryImage.style.backgroundImage = `url('${data.img}')`;
+                gerryMood.textContent = data.text;
+                
+                document.getElementById('hungerVal').textContent = data.hunger + '%';
+                document.getElementById('happinessVal').textContent = data.happiness + '%';
+                document.getElementById('energyVal').textContent = data.energy + '%';
+                document.getElementById('cleanlinessVal').textContent = data.cleanliness + '%';
+                
+                document.getElementById('hungerBar').style.width = data.hunger + '%';
+                document.getElementById('happinessBar').style.width = data.happiness + '%';
+                document.getElementById('energyBar').style.width = data.energy + '%';
+                document.getElementById('cleanlinessBar').style.width = data.cleanliness + '%';
+            }
+        }
+
+        // Обработка кликов по эмоциям
+        document.querySelectorAll('.emotion-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const emotion = item.dataset.emotion;
+                updateGerry(emotion);
+            });
+        });
+
+        // Автоматическая смена эмоций (каждые 5 секунд)
+        const emotionList = ['normal', 'happy', 'sad', 'angry', 'think', 'shock'];
+        let currentIndex = 0;
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % emotionList.length;
+            updateGerry(emotionList[currentIndex]);
+        }, 5000);
+
+        // Модальное окно
+        const modal = document.getElementById('downloadModal');
+        
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        document.getElementById('downloadBtn')?.addEventListener('click', openModal);
+        document.getElementById('heroDownloadBtn')?.addEventListener('click', openModal);
+        document.getElementById('downloadNavBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal();
+        });
+        document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+        
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#download') {
+                    e.preventDefault();
+                    openModal();
+                } else if (href !== '#') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
