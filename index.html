@@ -727,8 +727,9 @@
         <div class="download-card">
             <h3>🎮 ГОТОВ НАЧАТЬ?</h3>
             <p>Скачай English Adventure бесплатно и начни учить английский в игровой форме!</p>
-            <a href="EnglishAdventure_Setup.exe" class="btn btn-download" download>
+           <a href="EnglishAdventure_Setup.exe" class="btn btn-download" download>
     ⬇️ СКАЧАТЬ (WINDOWS) ⬇️
+</a>
 </a>
                ⬇️ СКАЧАТЬ (WINDOWS) ⬇️
             </a>
@@ -743,17 +744,22 @@
         </div>
     </div>
 
-    <div class="modal" id="downloadModal">
-        <div class="modal-content">
-            <div class="modal-gerry"></div>
-            <h3>English Adventure</h3>
-            <p>Скачай программу и начни учить английский с Гэрри!</p>
-            <p style="background: rgba(168,85,247,0.2); padding: 10px; border-radius: 15px; margin: 15px 0;">
-                📁 EnglishAdventure_Setup.exe
-            </p>
-            <button class="modal-close" id="closeModalBtn">ЗАКРЫТЬ</button>
-        </div>
+   <div class="modal" id="downloadModal">
+    <div class="modal-content">
+        <div class="modal-gerry"></div>
+        <h3>English Adventure</h3>
+        <p>Скачай программу и начни учить английский с Гэрри!</p>
+        <p style="background: rgba(168,85,247,0.2); padding: 10px; border-radius: 15px; margin: 15px 0;">
+            📁 EnglishAdventure_Setup.exe (15 МБ)
+        </p>
+        <a href="EnglishAdventure_Setup.exe" download id="realDownloadLink" style="text-decoration: none;">
+            <button class="modal-close" style="background: linear-gradient(135deg, #4ade80, #22c55e); margin-right: 10px;">
+                ⬇️ СКАЧАТЬ
+            </button>
+        </a>
+        <button class="modal-close" id="closeModalBtn">ЗАКРЫТЬ</button>
     </div>
+</div>
 
     <script>
         // Создание звёзд
