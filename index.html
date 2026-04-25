@@ -274,26 +274,16 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
         }
 
-        .screenshot-img {
+        .screenshot-card img {
+            width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
+            object-fit: cover;
         }
 
         .screenshot-card p {
             padding: 20px;
             text-align: center;
             font-weight: 600;
-        }
-
-        .screenshot-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 15px;
         }
 
         .tamagochi-preview {
@@ -468,6 +458,11 @@
             color: #7c3aed;
             padding: 15px 50px;
             font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         .btn-download:hover {
@@ -481,6 +476,7 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -520,36 +516,41 @@
             border-radius: 20px;
         }
 
-        .modal-close {
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            color: white;
-            border: none;
-            padding: 12px 30px;
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
             border-radius: 50px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
-            margin: 10px 5px;
+            border: none;
+            transition: 0.3s;
         }
 
-        .modal-download-btn {
+        .modal-btn-download {
             background: linear-gradient(135deg, #4ade80, #22c55e);
             color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px 5px;
         }
 
-        .modal-download-btn:hover {
+        .modal-btn-download:hover {
             transform: scale(1.05);
             background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .modal-btn-close {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+        }
+
+        .modal-btn-close:hover {
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
@@ -751,7 +752,7 @@
             <div class="download-card">
                 <h3>🎮 ГОТОВ НАЧАТЬ?</h3>
                 <p>Скачай English Adventure бесплатно и начни учить английский в игровой форме!</p>
-                <button class="btn btn-download" id="downloadBtn">⬇️ СКАЧАТЬ (WINDOWS) ⬇️</button>
+                <button class="btn-download" id="downloadBtn">⬇️ СКАЧАТЬ (WINDOWS) ⬇️</button>
                 <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">Версия 1.0 | ~15 МБ | Windows 10/11</p>
             </div>
         </div>
@@ -764,7 +765,7 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО С РАБОТАЮЩЕЙ КНОПКОЙ СКАЧИВАНИЯ -->
+    <!-- МОДАЛЬНОЕ ОКНО С РАБОТАЮЩИМ СКАЧИВАНИЕМ -->
     <div class="modal" id="downloadModal">
         <div class="modal-content">
             <div class="modal-gerry"></div>
@@ -773,11 +774,10 @@
             <p style="background: rgba(168,85,247,0.2); padding: 10px; border-radius: 15px; margin: 15px 0;">
                 📁 EnglishAdventure_Setup.exe (15 МБ)
             </p>
-            <!-- РЕАЛЬНАЯ КНОПКА СКАЧИВАНИЯ -->
-            <a href="EnglishAdventure_Setup.exe" download id="realDownloadLink">
-                <button class="modal-download-btn">⬇️ СКАЧАТЬ ФАЙЛ ⬇️</button>
-            </a>
-            <button class="modal-close" id="closeModalBtn">ЗАКРЫТЬ</button>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-download" id="realDownloadBtn">⬇️ СКАЧАТЬ ФАЙЛ</button>
+                <button class="modal-btn modal-btn-close" id="closeModalBtn">ЗАКРЫТЬ</button>
+            </div>
         </div>
     </div>
 
@@ -845,7 +845,7 @@
             updateGerry(emotionList[currentIndex]);
         }, 5000);
 
-        // Модальное окно
+        // === РАБОТА С МОДАЛЬНЫМ ОКНОМ И СКАЧИВАНИЕМ ===
         const modal = document.getElementById('downloadModal');
         
         function openModal() {
@@ -856,14 +856,43 @@
             modal.style.display = 'none';
         }
 
-        // Привязка кнопок к открытию модального окна
+        // Функция для скачивания файла (работает даже на GitHub Pages)
+        function downloadFile() {
+            // ВАЖНО: замените на правильную ссылку на ваш файл!
+            // Вариант 1: файл лежит в той же папке
+            let fileUrl = 'EnglishAdventure_Setup.exe';
+            
+            // Вариант 2: если используете GitHub Releases - раскомментируйте и замените
+            // fileUrl = 'https://github.com/ВАШ_АККАУНТ/ВАШ_РЕПОЗИТОРИЙ/releases/download/v1.0/EnglishAdventure_Setup.exe';
+            
+            // Вариант 3: Google Drive (замените ID)
+            // fileUrl = 'https://drive.google.com/uc?export=download&id=ВАШ_ID_ФАЙЛА';
+            
+            // Создаём временную ссылку и кликаем по ней
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = 'EnglishAdventure_Setup.exe';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Привязываем кнопки к открытию модального окна
         document.getElementById('downloadBtn')?.addEventListener('click', openModal);
         document.getElementById('heroDownloadBtn')?.addEventListener('click', openModal);
         document.getElementById('downloadNavBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             openModal();
         });
+        
+        // Привязываем кнопку закрытия
         document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+        
+        // Привязываем кнопку скачивания
+        document.getElementById('realDownloadBtn')?.addEventListener('click', function() {
+            downloadFile();
+            // Не закрываем модальное окно, чтобы пользователь мог нажать ещё раз
+        });
         
         // Закрытие при клике вне окна
         window.onclick = function(event) {
@@ -887,26 +916,21 @@
             });
         });
 
-        // Проверка, существует ли файл (для отладки)
-        fetch('EnglishAdventure_Setup.exe', { method: 'HEAD' })
-            .then(response => {
-                if (!response.ok) {
-                    console.warn('⚠️ Файл EnglishAdventure_Setup.exe не найден на сервере!');
-                    const downloadLink = document.getElementById('realDownloadLink');
-                    if (downloadLink) {
-                        downloadLink.href = '#';
-                        downloadLink.onclick = (e) => {
-                            e.preventDefault();
-                            alert('❌ Файл программы ещё не загружен на сайт!\n\nСвяжитесь с разработчиками для получения программы.');
-                        };
+        // Проверка существования файла (для отладки)
+        function checkFileExists() {
+            fetch('EnglishAdventure_Setup.exe', { method: 'HEAD' })
+                .then(response => {
+                    if (!response.ok) {
+                        console.warn('⚠️ Файл EnglishAdventure_Setup.exe не найден на сервере!');
+                    } else {
+                        console.log('✅ Файл найден, скачивание готово к работе!');
                     }
-                } else {
-                    console.log('✅ Файл найден, скачивание работает!');
-                }
-            })
-            .catch(() => {
-                console.warn('⚠️ Не удалось проверить наличие файла');
-            });
+                })
+                .catch(() => {
+                    console.warn('⚠️ Не удалось проверить наличие файла');
+                });
+        }
+        checkFileExists();
     </script>
 </body>
 </html>
